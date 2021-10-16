@@ -88,6 +88,8 @@ extdata_oh_18<- rawdata_oh_18 %>%
 #merge the rows
 oh_exam<- bind_rows(extdata_oh_12,extdata_oh_14,extdata_oh_16,extdata_oh_18)
 
+
+
 #### To the demographic datasets, adding a new variable - year
 rawdata_demo_12_year<-rawdata_demo_12 %>% mutate(year=2012)
 rawdata_demo_14_year<-rawdata_demo_14 %>% mutate(year=2014)
@@ -114,4 +116,15 @@ extdata_demo_16<- rawdata_demo_16_year %>%
 extdata_demo_18<- rawdata_demo_18_year %>% 
   select("SEQN","year","RIDAGEYR")
 
+#merging the extracted demographic data
+demographic_data<- bind_rows(extdata_demo_12,extdata_demo_14,extdata_demo_16,extdata_demo_18)
 
+
+
+
+
+####merging the two datasets created by us (oh exam and demographic) into a single data set, ignoring those participants who are not present in both the data sets merged.
+merged_data <-bind_rows(oh_exam,demographic_data)
+
+#saving into csv format in data folder
+write.csv(merged_data, here("data", '16-10-2021_extracted-data-of-oral-exam-&-demographic.csv') )
